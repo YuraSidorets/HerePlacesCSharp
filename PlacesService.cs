@@ -12,7 +12,7 @@ namespace HerePlacesCSharp
 {
     public class PlacesService
     {
-        private static string baseUrl = "https://places.cit.api.here.com/places/v1/autosuggest";
+        private static string baseUrl = "https://places.cit.api.here.com/places/v1/discover/around";
         private string appId;
         private string appToken;
 
@@ -22,9 +22,9 @@ namespace HerePlacesCSharp
             this.appToken = appToken;
         }
 
-        public async Task<List<Place>> ListPlacesAroundLocation(GeoCoordinate coordinate)
+        public async Task<List<Place>> ListPlacesAroundLocation(GeoCoordinate coordinate, int radius, string category)
         {
-            var rawPlaces = await GetRawPlaces(coordinate);
+            var rawPlaces = await GetRawPlaces(coordinate, radius, category);
             Response response = JsonConvert.DeserializeObject<Response>(rawPlaces);
 
             return (from Place p in response.Results.Places
@@ -33,7 +33,7 @@ namespace HerePlacesCSharp
                     select p).ToList(); // Order By Distance
         }
 
-        private Task<string> GetRawPlaces(GeoCoordinate coordinate)
+        private Task<string> GetRawPlaces(GeoCoordinate coordinate, int radius, string category)
         {
             var tcs = new TaskCompletionSource<string>();
 
@@ -50,16 +50,17 @@ namespace HerePlacesCSharp
                 }
             };
 
-            client.DownloadStringAsync(this.GetPlaceQuery(coordinate));
+            client.DownloadStringAsync(GetPlaceQuery(coordinate, radius, category));
 
             return tcs.Task;
         }
 
-        private Uri GetPlaceQuery(GeoCoordinate coordinate)
+        private Uri GetPlaceQuery(GeoCoordinate coordinate, int radius, string category)
         {
-            return new Uri($"{baseUrl}?at=" +
-                           $"{coordinate.Latitude.ToString(CultureInfo.InvariantCulture)}," +
-                           $"{coordinate.Longitude.ToString(CultureInfo.InvariantCulture)}" +
+            return new Uri($"{baseUrl}?"+
+                           $"cat={category}" +
+                           $"&in={coordinate.Latitude.ToString(CultureInfo.InvariantCulture)}," + 
+                           $"{coordinate.Longitude.ToString(CultureInfo.InvariantCulture)};r={radius}" +
                            $"&app_id={this.appId}" +
                            $"&app_code={appToken}");
         }

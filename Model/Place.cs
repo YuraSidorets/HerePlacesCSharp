@@ -19,6 +19,7 @@ namespace HerePlacesCSharp.Model
 
         [JsonProperty(PropertyName = "averageRating")]
         public string AverageRating { get; set; }
+
         public Category Category { get; set; }
 
         [JsonProperty(PropertyName = "position")]
@@ -26,6 +27,9 @@ namespace HerePlacesCSharp.Model
 
         [JsonProperty(PropertyName = "vicinity")]
         public string Address { get; set; }
+
+        [JsonProperty(PropertyName = "href")]
+        public string Url { get; set; }
 
         public GeoCoordinate GeoCoordinates => new GeoCoordinate(this.Position.First(), this.Position.Last());
 
