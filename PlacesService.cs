@@ -1,6 +1,5 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using PlacesApi.Model;
+﻿using HerePlacesCSharp.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Device.Location;
@@ -8,20 +7,12 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 
-namespace PlacesApi
+namespace HerePlacesCSharp
 {
     public class PlacesService
     {
-        private static string baseUrl = "http://places.nlp.nokia.com/places/v1/discover/around";
+        private static string baseUrl = "https://places.cit.api.here.com/places/v1/autosuggest";
         private string appId;
         private string appToken;
 
@@ -33,11 +24,11 @@ namespace PlacesApi
 
         public async Task<List<Place>> ListPlacesAroundLocation(GeoCoordinate coordinate)
         {
-            var rawPlaces = await this.GetRawPlaces(coordinate);
+            var rawPlaces = await GetRawPlaces(coordinate);
             Response response = JsonConvert.DeserializeObject<Response>(rawPlaces);
 
             return (from Place p in response.Results.Places
-                    orderby p.Distance ascending
+                    orderby p.Distance
                     where p.Position != null
                     select p).ToList(); // Order By Distance
         }
@@ -66,12 +57,11 @@ namespace PlacesApi
 
         private Uri GetPlaceQuery(GeoCoordinate coordinate)
         {
-            return new Uri(string.Format("{0}?app_id={1}&app_code={2}&at={3},{4};u=100&size=100&tf=plain",
-                baseUrl,
-                appId,
-                appToken,
-                coordinate.Latitude.ToString(CultureInfo.InvariantCulture),
-                coordinate.Longitude.ToString(CultureInfo.InvariantCulture)));
+            return new Uri($"{baseUrl}?at=" +
+                           $"{coordinate.Latitude.ToString(CultureInfo.InvariantCulture)}," +
+                           $"{coordinate.Longitude.ToString(CultureInfo.InvariantCulture)}" +
+                           $"&app_id={this.appId}" +
+                           $"&app_code={appToken}");
         }
     }
 }

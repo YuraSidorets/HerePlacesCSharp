@@ -1,11 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PlacesApi.Model
+namespace HerePlacesCSharp.Model
 {
     public class Category
     {
@@ -19,5 +14,5 @@ namespace PlacesApi.Model
         {
             return this.Title;
         }
-    } 
+    }
 }

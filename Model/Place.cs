@@ -1,12 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PlacesApi.Model
+using Newtonsoft.Json;
+
+namespace HerePlacesCSharp.Model
 {
     public class Place
     {
@@ -29,13 +27,7 @@ namespace PlacesApi.Model
         [JsonProperty(PropertyName = "vicinity")]
         public string Address { get; set; }
 
-        public GeoCoordinate GeoCoordinates
-        {
-            get
-            {
-                return new GeoCoordinate(this.Position.First(), this.Position.Last());
-            }
-        }
+        public GeoCoordinate GeoCoordinates => new GeoCoordinate(this.Position.First(), this.Position.Last());
 
         public override string ToString()
         {
