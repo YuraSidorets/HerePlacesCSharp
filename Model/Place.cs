@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Device.Location;
-using System.Linq;
 
 using Newtonsoft.Json;
 
@@ -20,6 +18,7 @@ namespace HerePlacesCSharp.Model
         [JsonProperty(PropertyName = "averageRating")]
         public string AverageRating { get; set; }
 
+        [JsonProperty(PropertyName = "category")]
         public Category Category { get; set; }
 
         [JsonProperty(PropertyName = "position")]
@@ -31,11 +30,9 @@ namespace HerePlacesCSharp.Model
         [JsonProperty(PropertyName = "href")]
         public string Url { get; set; }
 
-        public GeoCoordinate GeoCoordinates => new GeoCoordinate(this.Position.First(), this.Position.Last());
-
         public override string ToString()
         {
-            return this.Title;
+            return Title;
         }
     }
 }

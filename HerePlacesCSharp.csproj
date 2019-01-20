@@ -40,10 +40,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Device.Portable, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3f6d3f5f65b761a0, processorArchitecture=MSIL">
-      <HintPath>packages\System.Device.Location.Portable.1.0.0\lib\System.Device.Portable.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -51,8 +47,11 @@
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Items.cs" />
     <Compile Include="Model\Place.cs" />
-    <Compile Include="Model\Response.cs" />
-    <Compile Include="PlacesService.cs" />
+    <Compile Include="Model\PlacesLookupResponse.cs" />
+    <Compile Include="Model\PlacesRequest.cs" />
+    <Compile Include="Model\PlacesResponse.cs" />
+    <Compile Include="Services\IPlacesService.cs" />
+    <Compile Include="Services\PlacesService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
